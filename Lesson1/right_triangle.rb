@@ -13,5 +13,5 @@ is_isosceles = side_array[0] == side_array[1]
 
 if(is_triangle && is_rectangular)
   puts "Треугольник прямоугольный"
- puts "Треугольник равнобедренный" if is_isosceles 
+  puts "Треугольник равнобедренный" if is_isosceles 
 end
