@@ -12,24 +12,18 @@ class Train
     @speed += speed
   end
 
-  def get_speed
-    puts "Current speed of train: #{speed}"
-  end
-
-  def zero_speed
-    @speed = 0
-  end
-
-  def get_number_of_wagons
-    puts "This train has #{wagons} wagons"
+  def less_speed(speed)
+    @speed = speed if @speed - speed >= 0
   end
 
   def add_wagon
+    #Не понятный мне момент, так как в задании нет каких либо ограничений или условий касаемо колличества вагонов
     @wagons += 1 if speed == 0
   end
 
   def remove_wagon
-    @wagons -= 1 if speed == 0
+    #Не понятный мне момент, так как в задании нет каких либо ограничений или условий касаемо колличества вагонов
+    @wagons -= 1 if speed == 0 && @wagons > 0 
   end
 
   def add_route(route)
@@ -37,19 +31,27 @@ class Train
     @train_position = 0
   end
 
-  def move_forward
+  def move_forward #добавить на проверку наличи станции назад
+    get_current_position.send_train(self)
     @train_position += 1
+    get_current_position.add_train(self)
   end
 
   def move_back
+    get_current_position.send_train(self)
     @train_position -= 1
+    get_current_position.add_train(self)
   end
 
-  def get_position
-    puts "Current station: #{route.station_list[@train_position]}"
-    puts "Previous station: #{route.station_list[@train_position-1]}" if @train_position > 0 
-    puts "Current station: #{route.station_list[@train_position+1]}" if @train_position < route.station_list.length 
+  def get_current_position
+    route.stations[@train_position]
   end
 
+  def get_previous_position
+    route.stations[@train_position-1] if @train_position > 0 
+  end
 
+  def get_next_position
+    route.stations[@train_position+1] if @train_position < route.stations.length 
+  end
 end
