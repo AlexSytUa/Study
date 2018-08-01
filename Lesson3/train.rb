@@ -8,12 +8,12 @@ class Train
     @speed = 0
   end
 
-  def add_speed(speed)
-    @speed += speed
+  def add_speed(value)
+    @speed += value
   end
 
-  def less_speed(speed)
-    @speed = speed if @speed - speed >= 0
+  def less_speed(value)
+    @speed -= value if @speed - value >= 0
   end
 
   def add_wagon
@@ -28,30 +28,36 @@ class Train
 
   def add_route(route)
     @route = route
+    current_position.send_train(self)
     @train_position = 0
+    current_position.add_train(self)
   end
 
   def move_forward #добавить на проверку наличи станции назад
-    get_current_position.send_train(self)
-    @train_position += 1
-    get_current_position.add_train(self)
+    if @train_position < route.stations.length do
+      current_position.send_train(self)
+      @train_position += 1
+      current_position.add_train(self)
+    end
   end
 
   def move_back
-    get_current_position.send_train(self)
-    @train_position -= 1
-    get_current_position.add_train(self)
+    if @train_position > 0 do
+      current_position.send_train(self)
+      @train_position -= 1
+      current_position.add_train(self)
+    end
   end
 
-  def get_current_position
+  def current_position
     route.stations[@train_position]
   end
 
-  def get_previous_position
+  def previous_position
     route.stations[@train_position-1] if @train_position > 0 
   end
 
-  def get_next_position
+  def next_position
     route.stations[@train_position+1] if @train_position < route.stations.length 
   end
 end
